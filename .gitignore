@@ -1,3 +1,13 @@
+
+#Personal
+.dep.inc
+Makefile
+build/*
+dist/*
+nbproject/*
+*.*~
+
+
 # Compiled Object files
 *.slo
 *.lo
