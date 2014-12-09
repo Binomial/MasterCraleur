@@ -252,7 +252,9 @@ void Trie::loadDawg(std::string path){
         }
         number_of_nodes = num_current_node;
         dawg.close();
+        std::cout<<"Dictionnaire chargé"<<std::endl;
     }
+    else std::cout<<"Erreur d'ouverture du dictionnaire"<<std::endl;
 }
     
     
@@ -312,7 +314,7 @@ void Trie::findWords(std::string chevalet){
  * a revoir cet algo de crotte
  */
 void Trie::findWords(Node* p_node, std::string available_letters, std::string prefix){
-    std::cout<<"#"<<available_letters<<std::endl;
+    //std::cout<<"#"<<available_letters<<std::endl;
     Node* p_new_node;
     std::string new_letters;
     std::string word;
