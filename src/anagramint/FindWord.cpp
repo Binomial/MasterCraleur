@@ -15,12 +15,14 @@ int FindWord::nbWhite(string letters) {
 
 void FindWord::findWord(string key) {
     if (mapAn.count(key) > 0) {
+        cout << "youpi" << endl;
         //La clé existe, on affiche les solutions
         for (const auto& word : mapAn[key]) {
-            //cout << word << " ";
+            cout << word << " ";
             solution.insert(word);
         }
     } else {
+        cout << "chiotte pour la cle " << key << endl;
         // La cle n'existe pas
     }
 

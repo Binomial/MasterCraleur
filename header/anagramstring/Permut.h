@@ -30,7 +30,7 @@ public :
     void importDictionnary();
     int nbWhite(string letters);
     void generateWodWithWhite(string letters);
-    void saveSol();
+    void saveSol(string letter);
 private :
     set<string> setCombinaison;
     set<string> setSolution;

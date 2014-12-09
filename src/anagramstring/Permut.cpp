@@ -17,8 +17,8 @@ void Permut::generateWodWithWhite(string letters) {
             break;
         case 1:
             for(unsigned int i = 0; i < letters.length(); i++) {
-                sort(letters.begin(), letters.end());
                 letters[0] = alphabet[i];
+                sort(letters.begin(), letters.end());
                 calcul(letters);
             }
             break;
@@ -71,9 +71,8 @@ void Permut::calcul(string letters) {
     const int n = letters.length();
     string tmp;
     
-    cout <<endl<<endl<<endl << "Mes lettres : " << letters << endl << endl;
     /****calcul****/
-    for (unsigned int k = 2; k <= letters.length(); k++) {
+    for (unsigned int k = 1; k <= letters.length(); k++) {
         int *i = new int[k];
         for (unsigned int j = 0; j < k; ++j) {
 
@@ -153,9 +152,10 @@ int Permut::nbWhite(string letters) {
     return nb;
 }
 
-void Permut::saveSol() {
-    ofstream file("solution2", ios::out | ios::trunc);
+void Permut::saveSol(string letter) {
+    ofstream file("comparmoiaussi", ios::out | ios::trunc);
     if(file) {
+        file << letter << endl << endl;
     for(const auto& sol : setSolution) {
         file << sol<<endl;
     }

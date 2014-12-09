@@ -29,6 +29,7 @@ public:
     void permut(string letter);
     void findAll(string letter);
     void displaySolution();
+    
 private:
     map <string, set<string>> mapAn;
     set<string> solution;

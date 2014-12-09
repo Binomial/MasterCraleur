@@ -19,6 +19,7 @@ void testAnagramString(string letters) {
     p.importDictionnary();
     p.generateWodWithWhite(letters);
     p.printSolution();
+    //p.saveSol(letters);
 }
 
 void testAnagramInt(string letters) {
@@ -26,7 +27,6 @@ void testAnagramInt(string letters) {
     dict.importDictionnary();
     
     FindWord fw(dict.getMap());
-        
     fw.permut(letters);
     fw.displaySolution();
 }

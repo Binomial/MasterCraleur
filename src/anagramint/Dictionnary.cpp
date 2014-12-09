@@ -108,6 +108,7 @@ void Dictionnary::importDictionnary() {
             lineToMap(line);
         }
         cout << "the map was loaded" << endl;
+        
     } else {
         cerr << "Can't open the dictionnary" << endl;
     }
