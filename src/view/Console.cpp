@@ -9,6 +9,8 @@ void Console::display(GameBoard gb) {
         for(int y = 0; y < 15; y++) {
             if(gb.getLetter(x,y).car == ' ' && gb.getCoef(x, y) != 0) {
                 std::cout << gb.getCoef(x,y) << separator;
+            } else if(gb.getLetter(x,y).car == ' '){
+                std::cout << "." << separator;
             } else {
                 std::cout << gb.getLetter(x, y).car << separator;
             }
