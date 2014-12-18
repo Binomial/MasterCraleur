@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   GameBoard.h
  * Author: jeremy
  *
@@ -10,18 +10,17 @@
 
 #include "Bundle.h"
 
-
 typedef struct {
     int coef;
-    s_letter letter; // 0 si pas de lettre
-}s_case; 
+    char letter; // 0 si pas de lettre
+} s_case;
 
 class GameBoard {
 public:
-    void initGameBoard(); 
+    void init();
     bool isFreeCase(int, int); // x, y
-    void putLetter(s_letter, int, int); //Letter, x and y position
-    s_letter getLetter(int, int); // x, y
+    void putLetter(char, int, int); //Letter, x and y position
+    char getLetter(int, int); // x, y
     int getCoef(int, int);
 private:
     s_case gameBoard[15][15];

@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   Console.h
  * Author: jeremy
  *
@@ -12,12 +12,12 @@
 #include "../../header/model/GameBoard.h"
 
 class Console {
-public :
-    void display(GameBoard);
-    void displayRack(s_letter[7]);
-private :
-    
-    
+public:
+    static void display(GameBoard);
+    static void displayRack(char[7]);
+private:
+
+
 };
 #endif	/* CONSOLE_H */
 

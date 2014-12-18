@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   Player.h
  * Author: jeremy
  *
@@ -12,15 +12,18 @@
 #include <cstdlib>
 #include <iostream>
 #include "Bundle.h"
-
+#include "../view/Console.h"
 
 class Player {
-public :
+public:
+    Player();
+    void plays();
     void takeLetters(int nbLetters);
+    std::string getLettersFromRack();
 private:
-    //GameBoard gameBoard;
-    Bundle bundle;
-    s_letter rack[7];
+    GameBoard *gameboard;
+    Bundle *bundle;
+    char rack[7];
 };
 
 #endif	/* PLAYER_H */

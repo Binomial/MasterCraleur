@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   Bundle.h
  * Author: jeremy
  *
@@ -10,22 +10,18 @@
 
 #include <vector>
 #include <algorithm>
-
-
-typedef struct {
-    char car;
-    int point;
-}s_letter; 
-
+#include <iostream>
 
 class Bundle {
-public :
+public:
     Bundle();
     bool isEmpty();
-    s_letter takeLetter();
-    void initBundle();
-private :
-    std::vector<s_letter> letters;
+    char takeLetter();
+    void init();
+
+    void debug();
+private:
+    std::vector<char> letters;
 };
 
 
