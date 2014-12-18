@@ -41,30 +41,34 @@ std::string Player::findBestWordFromSet(std::set<std::string> solutions) {
         points = 0;
         std::cout << word << std::endl;
         for (int i = 0; i < word.length(); ++i) {
-            points += 1; // ici je cherche juste le mot le plus long en rajoutant +1 a chq lettre, mais en vrai on aura une map<'lettre',int> et on renverra le int qui correspond à word[i]
+            points += bundle->getPointOfChar(word[i]); // Pour l'sintant on tient pas compte des coeff bonus du plateau
         }
         if (points > bestPoints) {
             bestPoints = points;
             bestWord = word;
         }
     }
-    std::cout << "Meilleur mot = " << bestWord << std::endl;
+    std::cout << "Meilleur mot = " << bestWord << "( " << bestPoints << ")" << std::endl;
     return bestWord;
 }
 
-std::string Player::searchBestWord(std::string chevalet) {
+std::string Player::searchBestWord(std::string chevalet, int method) {
     //lancer une recherche avec les lettres
     std::set<std::string> solutions;
-    //Pour l'instant je fais avec Dawg, apres on mettra un parametre a searchBestWord pour preciser quelle methode
-    //DEBUT DU SWITCH
-    //case : parametre = 0 -> Dawg
-    Trie *dawg = new Trie();
-    dawg->loadDawg("dict/dictFrDawg.dc");
-    std::cout << "nombre de solutions avt : " << solutions.size() << std::endl;
-    solutions = dawg->findWords(chevalet);
-    //FIN DU SWITCH , quelle que soit la methode, on se retrouve ici avec un ensemble de string
+    switch (method) {
+        case 0:
+            Trie *dawg = new Trie();
+            dawg->loadDawg("dict/dictFrDawg.dc");
+            std::cout << "nombre de solutions avt : " << solutions.size() << std::endl;
+            solutions = dawg->findWords(chevalet);
+            break;
+            //        case 1: //anagramint
+            //            break;
+            //        case 2: //anagramstring
+            //            break;
+    }
     //Calcul du meilleur mot (d'abord, seulement avec les points des lettres, plus tard, on fera avec les bonus)
-    std::cout << "nombre de solutions : " << solutions.size() << std::endl;
+
     return findBestWordFromSet(solutions);
 }
 
@@ -76,7 +80,7 @@ void Player::playsFirstRound() {
         letters += rack[i];
     }
     std::cout << "mes lettres : " << letters << std::endl;
-    std::string bestWord = searchBestWord(letters);
+    std::string bestWord = searchBestWord(letters, 0);
     Console::display(*gameboard);
     gameboard->putWord(bestWord, 7, 7, 0); // putWord("mot", abs, ord, direction)
     Console::display(*gameboard);

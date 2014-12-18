@@ -9,6 +9,7 @@
 #define	BUNDLE_H
 
 #include <vector>
+#include <map>
 #include <algorithm>
 #include <iostream>
 
@@ -18,10 +19,11 @@ public:
     bool isEmpty();
     char takeLetter();
     void init();
-
+    int getPointOfChar(char);
     void displayDebug();
 private:
     std::vector<char> letters;
+    std::map<char, int> pointOfChar;
 };
 
 

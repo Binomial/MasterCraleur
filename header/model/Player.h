@@ -21,7 +21,7 @@ public:
     void plays();
     void playsFirstRound();
     std::string findBestWordFromSet(std::set<std::string>);
-    std::string searchBestWord(std::string);
+    std::string searchBestWord(std::string, int); //int : methode de recherche
     void takeLetters(int nbLetters);
     std::string getLettersFromRack();
 
