@@ -19,7 +19,7 @@ public:
     char takeLetter();
     void init();
 
-    void debug();
+    void displayDebug();
 private:
     std::vector<char> letters;
 };

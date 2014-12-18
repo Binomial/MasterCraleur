@@ -69,7 +69,7 @@ char Bundle::takeLetter() {
     return result;
 }
 
-void Bundle::debug() {
+void Bundle::displayDebug() {
     for (int i = 0; i < letters.size(); ++i) {
         std::cout << letters[i] << " ";
     }

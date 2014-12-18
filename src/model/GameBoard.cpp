@@ -55,6 +55,7 @@ bool GameBoard::isFreeCase(int x, int y) {
 
 void GameBoard::putLetter(char letter, int x, int y) {
     if (isFreeCase(x, y)) {
+        std::cout << "je put la letter '" << letter << "' à la position (" << x << ", " << y << " )" << std::endl;
         gameBoard[x][y].letter = letter;
     }
 }
@@ -65,4 +66,11 @@ char GameBoard::getLetter(int x, int y) {
 
 int GameBoard::getCoef(int x, int y) {
     return gameBoard[x][y].coef;
+}
+
+void GameBoard::putWord(std::string word, int abs, int ord, int dir) {
+    for (int i = 0; i < word.length(); ++i) {
+        (dir == 0) ? putLetter(word[i], abs, ord + i) : putLetter(word[i], abs + i, ord);
+    }
+
 }

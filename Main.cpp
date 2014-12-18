@@ -7,7 +7,6 @@
 
 #include <cstdlib>
 #include "header/controller/anagramstring/Permut.h"
-#include "header/controller/dawg/Trie.h"
 #include "header/controller/anagramint/Dictionnary.h"
 #include "header/controller/anagramint/FindWord.h"
 #include "header/model/Bundle.h"
@@ -21,12 +20,12 @@ int main() {
 
     Player *player = new Player();
     char next_step = ' ';
-
-    while (next_step != 'q') {
-
-        player->plays();
-        cin >> next_step;
-    }
+    player->playsFirstRound();
+    //    while (next_step != 'q') {
+    //
+    //        player->plays();
+    //        cin >> next_step;
+    //    }
 
 
     return 0;

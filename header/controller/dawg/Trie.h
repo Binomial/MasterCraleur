@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   Trie.h
  * Author: g
  *
@@ -11,36 +11,37 @@
 #include <fstream>
 #include <iostream>
 #include <queue>
+#include <set>
 #include <cstdlib>
 #include "Node.h"
 
-
-class Trie{
+class Trie {
 public:
     Trie();
     Trie(Node*);
-    
-    /* Getters */
-    int         getNumberOfNodes() const;  
-        
-    /* Public methods */
-    void        deleteVect(Node*, std::vector<Node*>&);
-    void        insertWord(std::string);
-    void        minimize(Node*, std::vector<Node*>, Node*);
-    void        minimize();
-    bool        searchWord(std::string);
-    std::string toGraphvizFormat();
-    void        renumbering();
-    std::string storeDawg();
-    void        loadDawg(std::string);
-    void        buildDawgAndStore(std::string, std::string);
-    void        findWords(std::string);
-    void        findWords(Node*, std::string, std::string);
 
-    
+    /* Getters */
+    int getNumberOfNodes() const;
+
+    /* Public methods */
+    void deleteVect(Node*, std::vector<Node*>&);
+    void insertWord(std::string);
+    void minimize(Node*, std::vector<Node*>, Node*);
+    void minimize();
+    bool searchWord(std::string);
+    std::string toGraphvizFormat();
+    void renumbering();
+    std::string storeDawg();
+    void loadDawg(std::string);
+    void buildDawgAndStore(std::string, std::string);
+    std::set<std::string> findWords(std::string);
+    void findWords(Node*, std::string, std::string);
+
+
 private:
     Node* head;
     int number_of_nodes;
+    std::set<std::string> setSolutions;
     std::vector<Node*> unchecked_leaf_nodes;
 };
 

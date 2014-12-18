@@ -4,7 +4,7 @@
 void Console::display(GameBoard gb) {
     std::string separator;
     separator = "  ";
-    std::cout << "AFFFICHAAAAGE" << std::endl;
+    std::cout << "AFFFICHAGE" << std::endl;
     for (int x = 0; x < 15; x++) {
         for (int y = 0; y < 15; y++) {
             if (gb.getLetter(x, y) == ' ' && gb.getCoef(x, y) != 0) {

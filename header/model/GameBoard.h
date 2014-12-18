@@ -12,7 +12,7 @@
 
 typedef struct {
     int coef;
-    char letter; // 0 si pas de lettre
+    char letter; // ' ' si pas de lettre
 } s_case;
 
 class GameBoard {
@@ -20,6 +20,7 @@ public:
     void init();
     bool isFreeCase(int, int); // x, y
     void putLetter(char, int, int); //Letter, x and y position
+    void putWord(std::string, int, int, int); //mot, abscisse, ordonnee, direction
     char getLetter(int, int); // x, y
     int getCoef(int, int);
 private:

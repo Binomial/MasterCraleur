@@ -13,13 +13,18 @@
 #include <iostream>
 #include "Bundle.h"
 #include "../view/Console.h"
+#include "../controller/dawg/Trie.h"
 
 class Player {
 public:
     Player();
     void plays();
+    void playsFirstRound();
+    std::string findBestWordFromSet(std::set<std::string>);
+    std::string searchBestWord(std::string);
     void takeLetters(int nbLetters);
     std::string getLettersFromRack();
+
 private:
     GameBoard *gameboard;
     Bundle *bundle;
