@@ -19,7 +19,7 @@ class MaFenetre : public QWidget {
     Q_OBJECT
 
     public:
-    MaFenetre();
+    MaFenetre(Player);
 
     public slots:
     void loadGame();
