@@ -1,6 +1,8 @@
 #include <locale>
 #include "../../../header/controller/dawg/Trie.h"
 
+/* METHODES DE CONSTRUCTION DU DICTIONNAIRE */
+
 Trie::Trie() {
     head = new Node(0, NULL);
     number_of_nodes = 0;
@@ -74,25 +76,6 @@ void Trie::minimize(Node* ptr_node, std::vector<Node*> unchecked_nodes, Node* sa
             minimize(ptr_node, unchecked_nodes, save_eq_node);
         }
     }
-}
-
-bool Trie::searchWord(std::string word) {
-    Node* tmp_node;
-    Node* p_current_node = head;
-    while (p_current_node != nullptr) {
-        for (unsigned int i = 0; i < word.length(); i++) {
-            tmp_node = p_current_node->findChild(word[i]);
-            if (tmp_node == nullptr) {
-                return false;
-            }
-            p_current_node = tmp_node;
-        }
-        if (p_current_node->isTerminal()) {
-            return true;
-        }
-        return false;
-    }
-    return false;
 }
 
 void Trie::deleteVect(Node* ptr_node, std::vector<Node*> &vect) {
@@ -266,28 +249,157 @@ void Trie::buildDawgAndStore(std::string pathDicoText, std::string pathResult) {
     }
 }
 
-std::set<std::string> Trie::findWords(std::string chevalet) {
+
+
+/* * * * * * * * * * * * * * * * *
+ * METHODES DE RECHERCHE DE MOTS *
+ * * * * * * * * * * * * * * * * */
+
+//"word" est-il dans le dictionnaire ?
+
+bool Trie::searchWord(std::string word) {
+    Node* tmp_node;
+    Node* p_current_node = head;
+    while (p_current_node != nullptr) {
+        for (unsigned int i = 0; i < word.length(); i++) {
+            tmp_node = p_current_node->findChild(word[i]);
+            if (tmp_node == nullptr) {
+                return false;
+            }
+            p_current_node = tmp_node;
+        }
+        if (p_current_node->isTerminal()) {
+            return true;
+        }
+        return false;
+    }
+    return false;
+}
+
+
+// Trouver les mots a partir de lettres, d'un plateau, et d'une position
+
+std::set<std::string> Trie::findWords(std::string chevalet, GameBoard gb, s_pos anchor) {
     int joker1_pos, joker2_pos;
+    int limit = 0;
+    ;
     joker1_pos = chevalet.find('8', 0);
-    if (joker1_pos != std::string::npos) {
+    if (joker1_pos != std::string::npos) { //s'il y a des jokers
         joker2_pos = chevalet.find('8', joker1_pos + 1);
         if (joker2_pos != std::string::npos) {
             for (char c1 = 'a'; c1 <= 'z'; ++c1) {
                 chevalet[joker1_pos] = c1;
                 for (char c2 = c1; c2 <= 'z'; ++c2) {
                     chevalet[joker2_pos] = c2;
-                    findWords(chevalet);
+                    findWords(chevalet, gb, anchor);
                 }
             }
         } else {
             for (char c = 'a'; c <= 'z'; ++c) {
                 chevalet[joker1_pos] = c;
-                findWords(chevalet);
+                findWords(chevalet, gb, anchor);
             }
         }
-    } else findWords(head, chevalet, "");
+    }//une fois les jokers remplacés
+        //else findWords(head, chevalet, "");
+    else {
+        int abs = anchor.abs - 1;
+        while (gb.isFreeCase(abs, anchor.ord) && abs > 0) {
+            abs--;
+            limit++;
+        }
+        //std::cout << "APPEL DE LEFTPART, avec limit=" << limit << std::endl;
+        leftPart("", chevalet, gb, head, anchor, limit);
+    }
     return setSolutions;
 }
+
+void Trie::extendRight(std::string partialWord, std::string chevalet, GameBoard gb, Node* node, s_pos rsquare) {
+    /* ExtendRight(PartialWord, node N, case a droite de l'ancre){*/
+    s_pos next_square;
+    Node* p_new_node = nullptr;
+    std::string new_partialWord;
+    //std::cout << "EXTENDRIGHT(partialWord:" << partialWord << ", chevalet:" << chevalet << ")" << std::endl;
+    if (!(rsquare.abs == 8 && rsquare.ord == 7 && partialWord == "")) {
+        if (gb.isFreeCase(rsquare.abs, rsquare.ord) && rsquare.abs < 15 && chevalet.length() > 0) {
+            //std::cout << "(" << rsquare.abs << "," << rsquare.ord << ") IS FREE" << std::endl;
+            if (node->isTerminal()) {
+                std::string res = partialWord + "(" + std::to_string(rsquare.abs - partialWord.length()) + ", " + std::to_string(rsquare.ord) + ")";
+                setSolutions.insert(res);
+                //std::cout << "############# " << partialWord << " peut-être placé" << std::endl;
+            }
+            for (int i = 0; i < chevalet.length(); ++i) {
+                //std::cout << "Lettre étudiée " << chevalet[i] << std::endl;
+
+                p_new_node = node->findChild(chevalet[i]);
+                if (p_new_node != nullptr) {
+                    //retirer la lettre du chevalet
+                    std::string save_chevalet = chevalet;
+                    new_partialWord = partialWord + chevalet[i];
+                    chevalet.erase(i, 1);
+                    next_square = rsquare;
+                    next_square.abs++;
+
+                    extendRight(new_partialWord, chevalet, gb, p_new_node, next_square);
+                    //remettre ds le chevalet
+                    chevalet = save_chevalet;
+
+                }
+            }
+        } else {
+            char l = gb.getLetter(rsquare.abs, rsquare.ord);
+            p_new_node = node->findChild(l);
+            if (p_new_node != nullptr) {
+                next_square = rsquare;
+                next_square.abs++;
+                new_partialWord = partialWord + l;
+                extendRight(new_partialWord, chevalet, gb, p_new_node, next_square);
+            }
+        }
+    }
+}
+
+void Trie::leftPart(std::string partialWord, std::string chevalet, GameBoard gb, Node* node, s_pos anchor, int limit) {
+    //    std::cout << std::endl;
+    //    std::cout << std::endl;
+    //    std::cout << std::endl;
+    //    std::cout << std::endl;
+    //    std::cout << std::endl;
+    //    std::cout << std::endl;
+    //    std::cout << "LEFTPART(partialWord:" << partialWord << ", chevalet:" << chevalet << ", limit:" << limit << " )" << std::endl;
+    s_pos rsquare = anchor;
+    std::string new_partialWord;
+    Node* p_new_node = nullptr;
+    rsquare.abs++;
+    extendRight(partialWord, chevalet, gb, node, rsquare);
+    if (limit > 0) {
+        for (int i = 0; i < chevalet.length(); ++i) {
+            //std::cout << "Lettre étudiée " << chevalet[i] << std::endl;
+            p_new_node = node->findChild(chevalet[i]);
+            if (p_new_node != nullptr) {
+                //retirer la lettre du chevalet
+                std::string save_chevalet = chevalet;
+                new_partialWord = partialWord + chevalet[i];
+                chevalet.erase(i, 1);
+                leftPart(new_partialWord, chevalet, gb, p_new_node, anchor, limit - 1);
+                //remettre ds le chevalet
+                chevalet = save_chevalet;
+            }
+        }
+    }
+}
+
+//1 - Recherche Horizontale
+
+//On verifie si la case precedant l'ancre est libre.
+//if (gameboard->isFreeCase(anchor.abs - 1, anchor.ord)) {
+//Si oui on cherche une partie gauche.
+//}
+//Pour la partie gauche trouvée, on cherche a etendre la partie droite.
+//findWords(letters, anchor, 0);
+
+/*
+//2 - Recherche Verticale
 
 /*
  * N'imp !!!!!!!!!!!!!!

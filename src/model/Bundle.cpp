@@ -104,11 +104,12 @@ char Bundle::takeLetter() {
 }
 
 void Bundle::displayDebug() {
+    std::cout << "Paquet(" << letters.size() << ") : { ";
     for (int i = 0; i < letters.size(); ++i) {
 
         std::cout << letters[i] << " ";
     }
-    std::cout << std::endl;
+    std::cout << "}" << std::endl;
 }
 
 int Bundle::getPointOfChar(char c) {

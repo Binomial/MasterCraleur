@@ -19,13 +19,15 @@ using namespace std;
 int main() {
 
     Player *player = new Player();
-    char next_step = ' ';
-    player->playsFirstRound();
-    //    while (next_step != 'q') {
-    //
-    //        player->plays();
-    //        cin >> next_step;
-    //    }
+    int step = 0;
+    while (step < 2) {
+        std::cout << std::endl;
+        std::cout << std::endl;
+        std::cout << "#Tour de jeu numéro " << step << std::endl;
+        std::cout << std::endl;
+        player->plays();
+        step++;
+    }
 
 
     return 0;

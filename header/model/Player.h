@@ -20,8 +20,9 @@ public:
     Player();
     void plays();
     void playsFirstRound();
-    std::string findBestWordFromSet(std::set<std::string>);
-    std::string searchBestWord(std::string, int); //int : methode de recherche
+    /*deprecated*/
+    //std::string findBestWordFromSet(std::set<std::string>);
+    void findWords(std::string, s_pos, int); //int : methode de recherche
     void takeLetters(int nbLetters);
     std::string getLettersFromRack();
 
@@ -29,6 +30,7 @@ private:
     GameBoard *gameboard;
     Bundle *bundle;
     char rack[7];
+    int numberOfLettersOnRack;
 };
 
 #endif	/* PLAYER_H */

@@ -14,6 +14,7 @@
 #include <set>
 #include <cstdlib>
 #include "Node.h"
+#include "../../model/GameBoard.h"
 
 class Trie {
 public:
@@ -34,9 +35,10 @@ public:
     std::string storeDawg();
     void loadDawg(std::string);
     void buildDawgAndStore(std::string, std::string);
-    std::set<std::string> findWords(std::string);
+    std::set<std::string> findWords(std::string, GameBoard, s_pos);
     void findWords(Node*, std::string, std::string);
-
+    void extendRight(std::string partialWord, std::string chevalet, GameBoard, Node* head, s_pos anchor);
+    void leftPart(std::string, std::string, GameBoard, Node*, s_pos, int);
 
 private:
     Node* head;

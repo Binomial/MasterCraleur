@@ -1,0 +1,20 @@
+recuperer le projet : 
+1) creer un nouveau projet.
+2) dans ce projet : git clone https://github.com/Binomial/MasterCraleur.git
+
+
+Changer de branche : 
+git checkout dev
+
+
+
+git pull (pour recuperer la derniere version)
+
+
+git status (pour voir les modif)
+git add XXX.cpp YYY.cpp  (pour mettre dans une sorte de file)
+git commit -m "Message de Commit" (pour commiter en local)
+git push (pour tout casser !)
+
+
+Merge ?
