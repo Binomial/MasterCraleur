@@ -47,6 +47,13 @@ void GameBoard::init() {
 
 
     // Letter *2
+
+    //init anchors
+    s_pos anchor;
+    anchor.abs = 7;
+    anchor.ord = 7;
+    int key = 77;
+    anchors.insert(std::pair<int, s_pos>(key, anchor));
 }
 
 bool GameBoard::isFreeCase(int x, int y) {
@@ -55,7 +62,7 @@ bool GameBoard::isFreeCase(int x, int y) {
 
 void GameBoard::putLetter(char letter, int x, int y) {
     if (isFreeCase(x, y)) {
-        std::cout << "je put la letter '" << letter << "' à la position (" << x << ", " << y << " )" << std::endl;
+        //std::cout << "je put la letter '" << letter << "' à la position (" << x << ", " << y << " )" << std::endl;
         gameBoard[x][y].letter = letter;
     }
 }
@@ -70,30 +77,37 @@ int GameBoard::getCoef(int x, int y) {
 
 void GameBoard::putWord(std::string word, int abs, int ord, int dir) {
     for (int i = 0; i < word.length(); ++i) {
-        (dir == 0) ? putLetter(word[i], abs, ord + i) : putLetter(word[i], abs + i, ord);
+        (dir == 0) ? putLetter(word[i], abs + i, ord) : putLetter(word[i], abs, ord + i);
     }
 }
 
-void GameBoard::importGameBoard(std::string path) {
-    // Penser à enlever les lettres du Bundle
-    std::ifstream file(path.c_str());
+std::map<int, s_pos> GameBoard::getAnchors() {
+    return anchors;
+}
 
-    if (file) {
-        std::cout << "File was open" << std::endl;
-        std::string line;
-        int i = 0; // Read 15 line
+void GameBoard::upDateAnchors(s_pos beginWord, int length, int direction) {
 
-        while (std::getline(file, line) && i < 16) {
-            for(int j=0; j < 16; j++) {
-                char character = line[j];
-                if(character != ' ') {
-                   // std::cout << "Caractere " << character << " en " << i << "/" << j << std::endl;
-                    putLetter(character, i, j);
-                }
+    if (direction == 0) {//horizontal
+        for (int i = beginWord.abs; i < beginWord.abs + length; ++i) {
+            //retrait des ancres ou on a mis le mot
+            anchors.erase(i * 10 + beginWord.ord);
+
+            if (isFreeCase(i, beginWord.ord - 1)) {
+                s_pos anchorUp;
+                anchorUp.abs = i;
+                anchorUp.ord = beginWord.ord - 1;
+                anchors.insert(std::pair<int, s_pos>(i * 10 + beginWord.ord - 1, anchorUp));
             }
-            i++;
+            if (isFreeCase(i, beginWord.ord + 1)) {
+                s_pos anchor;
+                anchor.abs = i;
+                anchor.ord = beginWord.ord + 1;
+                anchors.insert(std::pair<int, s_pos>(i * 10 + beginWord.ord + 1, anchor));
+            }
         }
-    } else {
-        std::cerr << "Error while opening the game board" << std::endl;
+    }
+
+    for (auto const& anchor : anchors) {
+        std::cout << "(" << anchor.second.abs << "," << anchor.second.ord << ")" << std::endl;
     }
 }

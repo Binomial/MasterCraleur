@@ -18,17 +18,21 @@
 class Player {
 public:
     Player();
-    void plays();
+    std::string plays();
     void playsFirstRound();
-    std::string findBestWordFromSet(std::set<std::string>);
-    std::string searchBestWord(std::string, int); //int : methode de recherche
+    /*deprecated*/
+    //std::string findBestWordFromSet(std::set<std::string>);
+    std::string findWords(std::string, s_pos, int); //int : methode de recherche
     void takeLetters(int nbLetters);
     std::string getLettersFromRack();
     int getNbLetters();
+
+
 private:
     GameBoard *gameboard;
     Bundle *bundle;
     char rack[7];
+    int numberOfLettersOnRack;
 };
 
 #endif	/* PLAYER_H */
