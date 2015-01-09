@@ -60,8 +60,9 @@ void MaFenetre::possibilitiesDawg() {
 
 MaFenetre::MaFenetre(Player p) : QWidget() {
     player = p;
+
     setFixedSize(1120, 810);
-    this->setStyleSheet("background-color: black;");
+    this->setStyleSheet("background-color: #75b475;");
     // Menu
     m_bouton1 = new QPushButton("Import", this);
     m_bouton1->setCursor(Qt::PointingHandCursor);
@@ -83,8 +84,9 @@ MaFenetre::MaFenetre(Player p) : QWidget() {
     m_bouton4->setStyleSheet("background-color : white;");
 
     possibilities = new QLabel("Best Word");
-    possibilities->setStyleSheet("color : white;");
+    possibilities->setStyleSheet("color : black;");
     points = new QLabel("Points : 0");
+
     points->setStyleSheet("color : white;");
 
     layoutRack = new QHBoxLayout();

@@ -38,3 +38,4 @@ nbproject/*
 *.app
 /test/build/
 /test/dist/
+/test/nbproject/

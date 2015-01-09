@@ -18,6 +18,7 @@
 class MaFenetre : public QWidget {
     Q_OBJECT
 
+
 public:
     MaFenetre(Player);
 
