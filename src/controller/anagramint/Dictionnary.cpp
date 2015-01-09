@@ -39,7 +39,7 @@ void Dictionnary::mapToFile() {
 }
 
 void Dictionnary::createDictionnary2() {
-    ifstream file("dico/dicoFr.dc");
+ifstream file("dico/dicoFr.dc");
 
     if (file) {
         string line;

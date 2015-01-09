@@ -9,6 +9,17 @@ Player::Player() {
         rack[i] = ' ';
 }
 
+int Player::getNbLetters() {
+    int nbLetters = 0;
+    for(int i=0; i < 7; ++i) {
+        if(rack[i] != ' ') {
+            nbLetters++;
+        }
+    }
+    
+    return nbLetters;  
+}
+
 void Player::takeLetters(int nbLetters) {
     std::cout << "Lettres tirées : ";
     for (int i = 0; i < nbLetters; i++) {

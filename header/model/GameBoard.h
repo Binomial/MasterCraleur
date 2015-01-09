@@ -10,6 +10,8 @@
 
 #include "Bundle.h"
 
+#include <fstream>
+
 typedef struct {
     int coef;
     char letter; // ' ' si pas de lettre
@@ -23,6 +25,7 @@ public:
     void putWord(std::string, int, int, int); //mot, abscisse, ordonnee, direction
     char getLetter(int, int); // x, y
     int getCoef(int, int);
+    void importGameBoard(std::string);
 private:
     s_case gameBoard[15][15];
 };
