@@ -36,3 +36,5 @@ nbproject/*
 *.exe
 *.out
 *.app
+/test/build/
+/test/dist/
