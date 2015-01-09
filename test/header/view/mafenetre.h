@@ -18,15 +18,15 @@
 class MaFenetre : public QWidget {
     Q_OBJECT
 
-    public:
+public:
     MaFenetre();
 
-    public slots:
+public slots:
     void loadGame();
     void getLetters();
     void possibilitiesDawg();
-    
-    private:
+
+private:
     QGridLayout *layout;
     QHBoxLayout *layoutPrinc;
     QVBoxLayout *layoutV;
@@ -36,12 +36,12 @@ class MaFenetre : public QWidget {
     QPushButton *m_bouton4;
 
     QHBoxLayout *layoutRack;
-    
+
     QGridLayout *grid;
-    
+
     QLabel *rack, *possibilities, *points;
     Player player;
-    
+
 };
 
 #endif

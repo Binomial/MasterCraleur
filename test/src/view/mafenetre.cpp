@@ -50,7 +50,7 @@ void MaFenetre::getLetters() {
 void MaFenetre::possibilitiesDawg() {
     if (player.getNbLetters() == 7) {
         possibilities->setText("Best word : ");
-        possibilities->setText(possibilities->text() +player.searchBestWord(player.getLettersFromRack().c_str(), 0).c_str());
+        possibilities->setText(possibilities->text() + player.searchBestWord(player.getLettersFromRack().c_str(), 0).c_str());
     } else {
         QMessageBox msgBox;
         msgBox.setText("Please get your letters before this operation");
@@ -80,15 +80,15 @@ MaFenetre::MaFenetre() : QWidget() {
     m_bouton4 = new QPushButton("Put word", this);
     m_bouton4->setCursor(Qt::PointingHandCursor);
     m_bouton4->setStyleSheet("background-color : white;");
-    
+
     possibilities = new QLabel("Best Word");
     possibilities->setStyleSheet("color : white;");
     points = new QLabel("Points : 0");
     points->setStyleSheet("color : white;");
-    
+
     layoutRack = new QHBoxLayout();
     layoutRack->setSpacing(1);
-    
+
 
     layoutV = new QVBoxLayout;
     layoutV->addWidget(m_bouton1);
