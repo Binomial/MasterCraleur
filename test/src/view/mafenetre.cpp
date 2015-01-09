@@ -58,7 +58,8 @@ void MaFenetre::possibilitiesDawg() {
     }
 }
 
-MaFenetre::MaFenetre() : QWidget() {
+MaFenetre::MaFenetre(Player p) : QWidget() {
+    player = p;
     setFixedSize(1120, 810);
     this->setStyleSheet("background-color: black;");
     // Menu
