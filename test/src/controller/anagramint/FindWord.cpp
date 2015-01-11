@@ -29,20 +29,22 @@ void FindWord::findWord(string key) {
 }
 
 // créer toutes les clés de letter de la taille de letter
+
 void FindWord::permut(string letter) {
     solution.clear();
     string s = letter;
     sort(s.begin(), s.end());
     findAll(s);
-    
+
     while (next_permutation(s.begin(), s.end())) {
         findAll(s);
     }
 }
 
 // Découpe letter de 2 à taille de letter, et trouve les anagrammes
+
 void FindWord::findAll(string letter) {
-    for (int i = 2; i < letter.length()+1; i++) {
+    for (std::size_t i = 2; i < letter.length() + 1; i++) {
         string tmp = letter;
         tmp.resize(i);
         findWord(tmp);
@@ -51,8 +53,8 @@ void FindWord::findAll(string letter) {
 
 void FindWord::displaySolution() {
     cout << "Avec vos lettres, vous pouvez faire :" << endl;
- 
-    for(const auto& word : solution) {
+
+    for (const auto& word : solution) {
         cout << word << endl;
     }
 }

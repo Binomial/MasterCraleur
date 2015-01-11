@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
             std::cout << std::endl;
             std::cout << "#Tour de jeu numéro " << step << std::endl;
             std::cout << std::endl;
-            player->plays(step); //step pour debug, normalement c'est la methode choisie
+            player->plays(0); //int : methode choisie
             step++;
         }
         return 0;

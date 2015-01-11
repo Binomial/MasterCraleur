@@ -13,7 +13,7 @@ Player::Player() {
 
 /* Ajoute au chevalet "nbLetters" lettres , met a jour numberOfLettersOnRack*/
 void Player::takeLetters(int nbLetters) {
-    numberOfLettersOnRack = 7;
+    numberOfLettersOnRack = 7; //si tt se passe bien, y aura 7 lettres. Sinon, c'est traité en dessous.
     for (int i = 0; i < nbLetters; i++) {
         if (bundle->isEmpty()) {
             numberOfLettersOnRack -= nbLetters - i;
@@ -29,8 +29,7 @@ void Player::takeLetters(int nbLetters) {
 /* Renvoie sous forme de chaine les lettres du chevalet */
 std::string Player::getLettersFromRack() {
     std::string result = "";
-    //changer 7
-    for (int i = 0; i < 7; i++) {
+    for (int i = 0; i < numberOfLettersOnRack; i++) {
         result += rack[i];
     }
     return result;
@@ -65,26 +64,24 @@ void Player::updateRack(std::string word) {
 }
 
 void Player::findWords(std::string chevalet, s_pos anchor, int method) {
-    std::string result = "!";
     std::set<std::string> solutions;
+    switch (method) {
+        case 0:
+            Trie *dawg = new Trie();
+            //TROP D OUVERTURES DE DICO TROUVER AUTRE MOYEN
+            dawg->loadDawg("dict/dictFrDawg.dc");
+            solutions = dawg->findWords(chevalet, *gameboard, anchor);
 
-    //switch (method) {
-    //case 0:
-    Trie *dawg = new Trie();
-    //TROP D OUVERTURES DE DICO TROUVER AUTRE MOYEN
-    dawg->loadDawg("dict/dictFrDawg.dc");
-    solutions = dawg->findWords(chevalet, *gameboard, anchor);
-
-    for (auto const& sol : solutions) {
-        std::cout << sol << std::endl;
+            for (auto const& sol : solutions) {
+                std::cout << sol << std::endl;
+            }
+            break;
+            //@TODO
+            //case 1: //anagramint
+            //   break;
+            //case 2: //anagramstring
+            //   break;
     }
-    //      break;
-    //@TODO
-    //case 1: //anagramint
-    //   break;
-    //case 2: //anagramstring
-    //   break;
-    //}
 }
 
 void Player::plays(int meth) {

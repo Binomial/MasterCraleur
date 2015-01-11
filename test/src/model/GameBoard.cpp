@@ -83,7 +83,7 @@ int GameBoard::getCoef(int x, int y) {
 }
 
 void GameBoard::putWord(std::string word, int abs, int ord, int dir) {
-    for (int i = 0; i < word.length(); ++i) {
+    for (std::size_t i = 0; i < word.length(); ++i) {
         (dir == 0) ? putLetter(word[i], abs + i, ord) : putLetter(word[i], abs, ord + i);
     }
 }

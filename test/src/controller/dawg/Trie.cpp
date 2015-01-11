@@ -294,7 +294,7 @@ bool Trie::isCorrect(GameBoard gb, int abs, int ord, char l, int dir) {
                 newWord += gb.getLetter(abs, y);
                 y++;
             }
-            bool res = searchWord(newWord);
+
             return searchWord(newWord);
         }
 
@@ -322,14 +322,14 @@ bool Trie::isCorrect(GameBoard gb, int abs, int ord, char l, int dir) {
 
 bool Trie::isCorrectPrefix(GameBoard gb, std::string word, s_pos anchor, int dir) {
     if (dir == 0) {
-        for (int i = 0; i < word.length(); ++i) {
+        for (std::size_t i = 0; i < word.length(); ++i) {
             if (!isCorrect(gb, anchor.abs - word.length() + i, anchor.ord, word[i], dir)) {
                 return false;
             }
         }
     }
     if (dir == 1) {
-        for (int i = 0; i < word.length(); ++i) {
+        for (std::size_t i = 0; i < word.length(); ++i) {
             if (!isCorrect(gb, anchor.abs, anchor.ord - word.length() + i, word[i], dir)) {
                 return false;
             }
@@ -346,7 +346,7 @@ bool Trie::isConnected(GameBoard gb, int abs, int ord) {
 // Trouver les mots a partir de lettres, d'un plateau, et d'une position
 
 std::set<std::string> Trie::findWords(std::string chevalet, GameBoard gb, s_pos anchor) {
-    int joker1_pos, joker2_pos;
+    std::size_t joker1_pos, joker2_pos;
     int limit = 0;
 
     joker1_pos = chevalet.find('8', 0);

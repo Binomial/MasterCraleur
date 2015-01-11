@@ -107,7 +107,7 @@ void Node::deleteNode(Node* ptr_node, Node* father, char letter, std::vector<Nod
         ptr_node->deleteEdges(unchecked); //les fils deja suppr, reste que les pointeurs
         father->deleteEdge(letter);
         //-1 car on ne veut pas suppr le dernier qui sera pop
-        for (int i = 0; i < unchecked.size() - 1; ++i) {
+        for (std::size_t i = 0; i < unchecked.size() - 1; ++i) {
             if (unchecked.at(i) == ptr_node) {
                 unchecked.erase(unchecked.begin() + i);
                 break;
