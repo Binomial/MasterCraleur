@@ -277,49 +277,70 @@ bool Trie::searchWord(std::string word) {
 
 //Vérifie qu'une nouvelle lettre posée forment des mots corrects Verticalement
 
-bool Trie::isCorrect(GameBoard gb, int abs, int ord, char l) {
-
-    if (gb.isFreeCase(abs, ord - 1) && gb.isFreeCase(abs, ord + 1)) {
-        return true;
-    } else {
-
-        std::string newWord = "";
-        //std::cout << std::endl;
-        //std::cout << "@char " << l << std::endl;
-        //std::cout << std::endl;
-        newWord += l;
-        //std::cout << "@newWord0(abs:" << abs << ") " << newWord << std::endl;
-        int y = ord - 1;
-        while (y >= 0 && !gb.isFreeCase(abs, y)) {
-            newWord = gb.getLetter(abs, y) + newWord;
-            y--;
+bool Trie::isCorrect(GameBoard gb, int abs, int ord, char l, int dir) {
+    if (dir == 0) { // Mot horizontal
+        if (gb.isFreeCase(abs, ord - 1) && gb.isFreeCase(abs, ord + 1)) {
+            return true;
+        } else {
+            std::string newWord = "";
+            newWord += l;
+            int y = ord - 1;
+            while (y >= 0 && !gb.isFreeCase(abs, y)) {
+                newWord = gb.getLetter(abs, y) + newWord;
+                y--;
+            }
+            y = ord + 1;
+            while (y < 15 && !gb.isFreeCase(abs, y)) {
+                newWord += gb.getLetter(abs, y);
+                y++;
+            }
+            bool res = searchWord(newWord);
+            return searchWord(newWord);
         }
-        //std::cout << "@newWord1 " << newWord << std::endl;
-        y = ord + 1;
-        while (y < 15 && !gb.isFreeCase(abs, y)) {
-            newWord += gb.getLetter(abs, y);
-            y++;
+
+    } else { //Mot Vertical
+        if (gb.isFreeCase(abs - 1, ord) && gb.isFreeCase(abs + 1, ord)) {
+            return true;
+        } else {
+
+            std::string newWord = "";
+            newWord += l;
+            int x = abs - 1;
+            while (x >= 0 && !gb.isFreeCase(x, ord)) {
+                newWord = gb.getLetter(x, ord) + newWord;
+                x--;
+            }
+            x = abs + 1;
+            while (x < 15 && !gb.isFreeCase(x, ord)) {
+                newWord += gb.getLetter(x, ord);
+                x++;
+            }
+            return searchWord(newWord);
         }
-        //std::cout << "@newWord2 " << newWord << std::endl;
-        /*DEBUG*/
-        //std::cout << "@newWord " << newWord << std::endl;
-        bool res = searchWord(newWord);
-        //        if (res) {
-        //            std::cout << "@mot_vertical : " << newWord << "[prefix correct]" << std::endl;
-        //        }
-        /*F_DEBUG*/
-        return searchWord(newWord);
     }
 }
 
-bool Trie::isCorrectPrefix(GameBoard gb, std::string word, s_pos anchor) {
-    for (int i = 0; i < word.length(); ++i) {
-        if (!isCorrect(gb, anchor.abs - word.length() + i, anchor.ord, word[i])) {
-            //std::cout << "pas correct <" << "prefix:" << word << " , lettre:" << word[i] << " , ancre:" << anchor.abs - (word.length() - 1) + i << "," << anchor.ord << ">" << std::endl;
-            return false;
+bool Trie::isCorrectPrefix(GameBoard gb, std::string word, s_pos anchor, int dir) {
+    if (dir == 0) {
+        for (int i = 0; i < word.length(); ++i) {
+            if (!isCorrect(gb, anchor.abs - word.length() + i, anchor.ord, word[i], dir)) {
+                return false;
+            }
+        }
+    }
+    if (dir == 1) {
+        for (int i = 0; i < word.length(); ++i) {
+            if (!isCorrect(gb, anchor.abs, anchor.ord - word.length() + i, word[i], dir)) {
+                return false;
+            }
         }
     }
     return true;
+}
+
+bool Trie::isConnected(GameBoard gb, int abs, int ord) {
+
+    return (!gb.isFreeCase(abs - 1, ord) || !gb.isFreeCase(abs, ord - 1));
 }
 
 // Trouver les mots a partir de lettres, d'un plateau, et d'une position
@@ -355,7 +376,15 @@ std::set<std::string> Trie::findWords(std::string chevalet, GameBoard gb, s_pos 
             limit++;
         }
         //std::cout << "APPEL DE LEFTPART, avec limit=" << limit << std::endl;
-        leftPart("", chevalet, gb, head, anchor, limit);
+        leftPart("", chevalet, gb, head, anchor, limit, 0);
+        //MOTS VERTICAUX
+        int ord = anchor.ord - 1;
+        limit = 0;
+        while (gb.isFreeCase(anchor.abs, ord) && ord > 0) {
+            ord--;
+            limit++;
+        }
+        leftPart("", chevalet, gb, head, anchor, limit, 1);
     }
     return setSolutions;
 }
@@ -363,11 +392,10 @@ std::set<std::string> Trie::findWords(std::string chevalet, GameBoard gb, s_pos 
 /*ATTENTION : version pour mot horiozntal*/
 
 /* ExtendRight(PartialWord, node N, case a droite de l'ancre){*/
-void Trie::extendRight(std::string partialWord, std::string chevalet, GameBoard gb, Node* node, s_pos rsquare) {
-    //std::cout << "pour le mot '" << partialWord << "' , pos(" << rsquare.abs - partialWord.length() << "," << rsquare.ord << ")" << std::endl;
-    if (isCorrectPrefix(gb, partialWord, rsquare)) {//on ne cherche que si le prefixe est correct ds le plateau
+void Trie::extendRight(std::string partialWord, std::string chevalet, GameBoard gb, Node* node, s_pos rsquare, int dir) {
+    if (isCorrectPrefix(gb, partialWord, rsquare, dir)) {//on ne cherche que si le prefixe est correct ds le plateau
         //Cas ou pas de prefixe et ancre a la fin d'un mot (pas de connectivité)
-        if (partialWord != "" || !gb.isFreeCase(rsquare.abs - 1, rsquare.ord)) {
+        if (partialWord != "" || isConnected(gb, rsquare.abs, rsquare.ord)) {
             s_pos next_square;
             Node* p_new_node = nullptr;
             std::string new_partialWord;
@@ -375,23 +403,27 @@ void Trie::extendRight(std::string partialWord, std::string chevalet, GameBoard 
             if (gb.isFreeCase(rsquare.abs, rsquare.ord) && rsquare.abs < 15 && chevalet.length() > 0) {
                 //std::cout << "(" << rsquare.abs << "," << rsquare.ord << ") IS FREE" << std::endl;
                 if (node->isTerminal()) {
-                    std::string res = partialWord + "(" + std::to_string(rsquare.abs - partialWord.length()) + ", " + std::to_string(rsquare.ord) + ")";
-                    //std::cout << "@mot : " << partialWord << "[terminal- connecté - prefixcorrect]" << std::endl;
+                    std::string res;
+                    if (dir == 0)
+                        res = partialWord + "(" + std::to_string(rsquare.abs - partialWord.length()) + ", " + std::to_string(rsquare.ord) + ") [dir0]";
+                    else
+                        res = partialWord + "(" + std::to_string(rsquare.abs) + ", " + std::to_string(rsquare.ord - partialWord.length()) + ") [dir1]";
+
                     setSolutions.insert(res);
                 }
                 for (unsigned int i = 0; i < chevalet.length(); ++i) {
                     p_new_node = node->findChild(chevalet[i]);
                     if (p_new_node != nullptr) {//un mot existe étendu par la lettre du chevalet
-                        if (isCorrect(gb, rsquare.abs, rsquare.ord, chevalet[i])) {//si de nouveaux mots sont formés et qu'ils existent
+                        if (isCorrect(gb, rsquare.abs, rsquare.ord, chevalet[i], dir)) {//si de nouveaux mots sont formés et qu'ils existent
                             //retirer la lettre du chevalet
                             std::string save_chevalet = chevalet;
                             new_partialWord = partialWord + chevalet[i];
                             chevalet.erase(i, 1);
 
                             next_square = rsquare;
-                            next_square.abs++;
+                            (dir == 0) ? next_square.abs++ : next_square.ord++;
 
-                            extendRight(new_partialWord, chevalet, gb, p_new_node, next_square);
+                            extendRight(new_partialWord, chevalet, gb, p_new_node, next_square, dir);
                             //remettre ds le chevalet
                             chevalet = save_chevalet;
                         }
@@ -401,22 +433,23 @@ void Trie::extendRight(std::string partialWord, std::string chevalet, GameBoard 
                 char l = gb.getLetter(rsquare.abs, rsquare.ord);
                 p_new_node = node->findChild(l);
                 if (p_new_node != nullptr) {
+
                     next_square = rsquare;
-                    next_square.abs++;
+                    (dir == 0) ? next_square.abs++ : next_square.ord++;
                     new_partialWord = partialWord + l;
-                    extendRight(new_partialWord, chevalet, gb, p_new_node, next_square);
+                    extendRight(new_partialWord, chevalet, gb, p_new_node, next_square, dir);
                 }
             }
         }
     }
 }
 
-void Trie::leftPart(std::string partialWord, std::string chevalet, GameBoard gb, Node* node, s_pos anchor, int limit) {
+void Trie::leftPart(std::string partialWord, std::string chevalet, GameBoard gb, Node* node, s_pos anchor, int limit, int dir) {
     s_pos rsquare = anchor;
     std::string new_partialWord;
     Node* p_new_node = nullptr;
-    rsquare.abs++;
-    extendRight(partialWord, chevalet, gb, node, rsquare);
+    (dir == 0) ? rsquare.abs++ : rsquare.ord++;
+    extendRight(partialWord, chevalet, gb, node, rsquare, dir);
     if (limit > 0) {
         for (unsigned int i = 0; i < chevalet.length(); ++i) {
             //std::cout << "Lettre étudiée " << chevalet[i] << std::endl;
@@ -429,7 +462,7 @@ void Trie::leftPart(std::string partialWord, std::string chevalet, GameBoard gb,
                 new_partialWord = partialWord + chevalet[i];
                 chevalet.erase(i, 1);
 
-                leftPart(new_partialWord, chevalet, gb, p_new_node, anchor, limit - 1);
+                leftPart(new_partialWord, chevalet, gb, p_new_node, anchor, limit - 1, dir);
 
                 //remettre ds le chevalet
                 chevalet = save_chevalet;

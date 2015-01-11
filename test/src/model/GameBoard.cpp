@@ -114,10 +114,17 @@ void GameBoard::upDateAnchors(s_pos beginWord, int length, int direction) {
         //devant et derriere
         addAnchor(beginWord.abs - 1, beginWord.ord);
         addAnchor(beginWord.abs + length, beginWord.ord);
-    }
-
-    for (auto const& anchor : anchors) {
-        std::cout << "(" << anchor.second.abs << "," << anchor.second.ord << ")" << std::endl;
+    } else {//vertical
+        //ajout des ancres gauches et droites
+        for (int i = beginWord.ord; i < beginWord.ord + length; ++i) {
+            //retrait des ancres ou on a mis le mot
+            anchors.erase(beginWord.abs * 10 + i);
+            addAnchor(beginWord.abs - 1, i);
+            addAnchor(beginWord.abs + 1, i);
+        }
+        //dessus et dessous
+        addAnchor(beginWord.abs, beginWord.ord - 1);
+        addAnchor(beginWord.abs, beginWord.ord + length);
     }
 }
 

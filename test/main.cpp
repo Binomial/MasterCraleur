@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
         return app.exec();
     } else {
         int step = 0;
-        while (step < 2) {
+        while (step < 5) {
             std::cout << std::endl;
             std::cout << std::endl;
             std::cout << "#Tour de jeu numéro " << step << std::endl;

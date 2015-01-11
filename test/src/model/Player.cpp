@@ -75,8 +75,6 @@ void Player::findWords(std::string chevalet, s_pos anchor, int method) {
     dawg->loadDawg("dict/dictFrDawg.dc");
     solutions = dawg->findWords(chevalet, *gameboard, anchor);
 
-
-    std::cout << "SOLUTIONS" << std::endl;
     for (auto const& sol : solutions) {
         std::cout << sol << std::endl;
     }
@@ -119,21 +117,24 @@ void Player::plays(int meth) {
     std::string wordToPut = "";
     int abs = 0;
     int ord = 0;
+    int vardir = 0;
     std::cout << "Choisir mot a placer" << std::endl;
     std::cin >> wordToPut;
     std::cout << "abs ?" << std::endl;
     std::cin >> abs;
     std::cout << "ord ?" << std::endl;
     std::cin >> ord;
+    std::cout << "dir ?" << std::endl;
+    std::cin >> vardir;
 
     /* Etape 4 : Placement du mot */
-    gameboard->putWord(wordToPut, abs, ord, 0); // putWord("mot", abs, ord, direction)
+    gameboard->putWord(wordToPut, abs, ord, vardir); // putWord("mot", abs, ord, direction)
 
     /*Etape 5 : Mise à jour des ancres */
     s_pos begin;
     begin.abs = abs;
     begin.ord = ord;
-    gameboard->upDateAnchors(begin, wordToPut.length(), 0);
+    gameboard->upDateAnchors(begin, wordToPut.length(), vardir);
 
     /* Etape 6 : Modification du chevalet */
     updateRack(wordToPut);
@@ -144,67 +145,4 @@ void Player::plays(int meth) {
 
 }
 
-
-
-
-
-
-
-
-
-
-//    bool connection = false; // mot connecté a une lettre du plateau
-
-//    numberOfLettersOnRack = 7;
-//    for (int i = 0; i < numberOfLettersOnRack; ++i) {
-//        cst_letters += rack[i];
-//    }
-//    //ligne7
-//
-//    //x = case de depart du mot cherché
-//    for (int x = 0; x < 15; ++x) {
-//        letters = cst_letters;
-//        std::cout << "ETAPE " << x << " : case(H," << x + 1 << ")" << std::endl;
-//        int final_pos = x;
-//        for (int l = 0; l < 7; ++final_pos) {
-//            std::cout << "\t[Lettre du chevalet <" << final_pos + 1 << ">]" << std::endl;
-//            //depassement
-//            if (final_pos >= 15) {
-//                std::cout << "\t\t[Depassement]" << std::endl;
-//                break;
-//            }
-//            //si on rencontre une case occupee
-//            if (!gameboard->isFreeCase(7, final_pos)) {
-//                std::cout << "\t\t[Case occupee] " << gameboard->getLetter(7, final_pos) << std::endl;
-//                std::cout << "\t\t[Connectivité : OK]" << std::endl;
-//                connection = true;
-//                letters += gameboard->getLetter(7, final_pos);
-//            } else ++l;
-//        }
-//        std::cout << "\t[Chevalet étudié entre pos(" << x + 1 << ") et pos(" << final_pos + 1 << ")" << std::endl;
-//        if (!connection) {
-//            //aucune lettre n'a été croisée, on regarde la suivante
-//            //NB : normalement il faut regarder aussi une eventuelle connectivité en bas ou en haut etc.
-//
-//            if (!gameboard->isFreeCase(7, final_pos)) {
-//
-//                connection = true;
-//                while (!gameboard->isFreeCase(7, final_pos)) {
-//                    letters += gameboard->getLetter(7, final_pos);
-//                    final_pos++;
-//                }
-//                std::cout << "\t\t[Connectivité -> OK - Recherche de mot (" << letters << ") ]" << std::endl;
-//                //là, on peut chercher les mots, sinon c'est pas la peine
-//                result = searchBestWord(letters, 0);
-//            } else std::cout << "\t\t[Connectivité -> KO - Pas de recherche de mot]" << std::endl;
-//
-//        } else {
-//            std::cout << "\t[Recherche de mot (" << letters << ") ]" << std::endl;
-//            result = searchBestWord(letters, 0);
-//        }
-//        std::cout << "\tResultat à la place " << x << " : " << result << std::endl;
-//
-//        //trouver le meilleur mot en fonction des points des lettres uniquement
-//        //placer le mot
-//    }
 
