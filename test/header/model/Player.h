@@ -18,14 +18,13 @@
 class Player {
 public:
     Player();
-    std::string plays();
+    void plays(int);
     void playsFirstRound();
-    /*deprecated*/
-    //std::string findBestWordFromSet(std::set<std::string>);
-    std::string findWords(std::string, s_pos, int); //int : methode de recherche
+    void findWords(std::string, s_pos, int); //int : methode de recherche
     void takeLetters(int nbLetters);
     std::string getLettersFromRack();
     int getNbLetters();
+    void updateRack(std::string); //int longueur du mot qui a été placé
 
 
 private:

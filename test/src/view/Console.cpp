@@ -3,7 +3,6 @@
 
 void Console::display(GameBoard gb) {
     std::string separator;
-    s_pos anchor;
     bool isAnchor = false;
     separator = "  ";
     std::cout << "Plateau :" << std::endl;

@@ -44,25 +44,32 @@ void GameBoard::init() {
 
 
     // Letter * 3
-
+    //@TODO
 
     // Letter *2
+    //@TODO
 
     //init anchors
+    int key = 77;
     s_pos anchor;
     anchor.abs = 7;
     anchor.ord = 7;
-    int key = 77;
     anchors.insert(std::pair<int, s_pos>(key, anchor));
+    /* Pourquoi une map avec key = absord ?
+     * je voulais un set de struct (x,y);
+     * -surcharge operateur == ok
+     * -hash : rien compris
+     */
 }
 
 bool GameBoard::isFreeCase(int x, int y) {
-    return gameBoard[x][y].letter == ' ';
+    if (x >= 0 && y >= 0 && x < 15 && y < 15)
+        return gameBoard[x][y].letter == ' ';
+    else return true;
 }
 
 void GameBoard::putLetter(char letter, int x, int y) {
     if (isFreeCase(x, y)) {
-        //std::cout << "je put la letter '" << letter << "' à la position (" << x << ", " << y << " )" << std::endl;
         gameBoard[x][y].letter = letter;
     }
 }
@@ -85,29 +92,32 @@ std::map<int, s_pos> GameBoard::getAnchors() {
     return anchors;
 }
 
+void GameBoard::addAnchor(int x, int y) {
+    if (isFreeCase(x, y) && x > 0 && y > 0 && x < 15 && y < 15) {
+        s_pos anchor;
+        anchor.abs = x;
+        anchor.ord = y;
+        anchors.insert(std::pair<int, s_pos>(x * 10 + y, anchor));
+    }
+}
+
 void GameBoard::upDateAnchors(s_pos beginWord, int length, int direction) {
 
     if (direction == 0) {//horizontal
+        //ajout des ancres au-dessus et en dessous
         for (int i = beginWord.abs; i < beginWord.abs + length; ++i) {
             //retrait des ancres ou on a mis le mot
             anchors.erase(i * 10 + beginWord.ord);
-
-            if (isFreeCase(i, beginWord.ord - 1)) {
-                s_pos anchorUp;
-                anchorUp.abs = i;
-                anchorUp.ord = beginWord.ord - 1;
-                anchors.insert(std::pair<int, s_pos>(i * 10 + beginWord.ord - 1, anchorUp));
-            }
-            if (isFreeCase(i, beginWord.ord + 1)) {
-                s_pos anchor;
-                anchor.abs = i;
-                anchor.ord = beginWord.ord + 1;
-                anchors.insert(std::pair<int, s_pos>(i * 10 + beginWord.ord + 1, anchor));
-            }
+            addAnchor(i, beginWord.ord - 1);
+            addAnchor(i, beginWord.ord + 1);
         }
+        //devant et derriere
+        addAnchor(beginWord.abs - 1, beginWord.ord);
+        addAnchor(beginWord.abs + length, beginWord.ord);
     }
 
     for (auto const& anchor : anchors) {
         std::cout << "(" << anchor.second.abs << "," << anchor.second.ord << ")" << std::endl;
     }
 }
+

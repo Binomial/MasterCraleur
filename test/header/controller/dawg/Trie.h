@@ -35,11 +35,13 @@ public:
     std::string storeDawg();
     void loadDawg(std::string);
     void buildDawgAndStore(std::string, std::string);
+    //methodes Trie+Plateau
     std::set<std::string> findWords(std::string, GameBoard, s_pos);
     void findWords(Node*, std::string, std::string);
     void extendRight(std::string partialWord, std::string chevalet, GameBoard, Node* head, s_pos anchor);
     void leftPart(std::string, std::string, GameBoard, Node*, s_pos, int);
-
+    bool isCorrect(GameBoard, int, int, char);
+    bool isCorrectPrefix(GameBoard, std::string, s_pos);
 private:
     Node* head;
     int number_of_nodes;

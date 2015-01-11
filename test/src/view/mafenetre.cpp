@@ -50,7 +50,7 @@ void MaFenetre::getLetters() {
 void MaFenetre::possibilitiesDawg() {
     if (player.getNbLetters() == 7) {
         possibilities->setText("Best word : ");
-        possibilities->setText(possibilities->text() + player.plays().c_str());
+        possibilities->setText(possibilities->text() + "On verra plus tard");
     } else {
         QMessageBox msgBox;
         msgBox.setText("Please get your letters before this operation");

@@ -43,6 +43,7 @@ public:
     char getLetter(int, int); // x, y
     int getCoef(int, int);
     std::map<int, s_pos> getAnchors();
+    void addAnchor(int, int);
     void upDateAnchors(s_pos, int, int);
 private:
     //std::set<s_pos> anchors;
