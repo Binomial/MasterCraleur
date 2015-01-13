@@ -345,7 +345,7 @@ bool Trie::isConnected(GameBoard gb, int abs, int ord) {
 
 // Trouver les mots a partir de lettres, d'un plateau, et d'une position
 
-std::set<std::string> Trie::findWords(std::string chevalet, GameBoard gb, s_pos anchor) {
+std::vector<s_solution> Trie::findWords(std::string chevalet, GameBoard gb, s_pos anchor) {
     std::size_t joker1_pos, joker2_pos;
     int limit = 0;
 
@@ -386,7 +386,7 @@ std::set<std::string> Trie::findWords(std::string chevalet, GameBoard gb, s_pos 
         }
         leftPart("", chevalet, gb, head, anchor, limit, 1);
     }
-    return setSolutions;
+    return vectSolutions;
 }
 
 /*ATTENTION : version pour mot horiozntal*/
@@ -403,13 +403,17 @@ void Trie::extendRight(std::string partialWord, std::string chevalet, GameBoard 
             if (gb.isFreeCase(rsquare.abs, rsquare.ord) && rsquare.abs < 15 && chevalet.length() > 0) {
                 //std::cout << "(" << rsquare.abs << "," << rsquare.ord << ") IS FREE" << std::endl;
                 if (node->isTerminal()) {
-                    std::string res;
-                    if (dir == 0)
-                        res = partialWord + "(" + std::to_string(rsquare.abs - partialWord.length()) + ", " + std::to_string(rsquare.ord) + ") [dir0]";
-                    else
-                        res = partialWord + "(" + std::to_string(rsquare.abs) + ", " + std::to_string(rsquare.ord - partialWord.length()) + ") [dir1]";
-
-                    setSolutions.insert(res);
+                    s_solution sol;
+                    sol.word = partialWord;
+                    sol.dir = dir;
+                    if (dir == 0) {
+                        sol.abs = rsquare.abs - partialWord.length();
+                        sol.ord = rsquare.ord;
+                    } else {
+                        sol.abs = rsquare.abs;
+                        sol.ord = rsquare.ord - partialWord.length();
+                    }
+                    vectSolutions.push_back(sol);
                 }
                 for (unsigned int i = 0; i < chevalet.length(); ++i) {
                     p_new_node = node->findChild(chevalet[i]);

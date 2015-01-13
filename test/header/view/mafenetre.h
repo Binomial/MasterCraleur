@@ -21,11 +21,14 @@ class MaFenetre : public QWidget {
 
 public:
     MaFenetre(Player);
+    void refresh();
+    void initRack();
 
 public slots:
     void loadGame();
     void getLetters();
     void possibilitiesDawg();
+    void putWord();
 
 private:
     QGridLayout *layout;
@@ -42,6 +45,7 @@ private:
 
     QLabel *rack, *possibilities, *points;
     Player player;
+    s_solution solution;
 
 };
 

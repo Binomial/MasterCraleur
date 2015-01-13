@@ -27,19 +27,51 @@ void MaFenetre::loadGame() {
     }
 }
 
+void MaFenetre::refresh() {
+    QString text;
+    GameBoard gb = player.getGameBoard();
+    for (int j = 0; j < 15; ++j) {
+        for (int i = 0; i < 15; ++i) {
+            if (gb.getLetter(i, j) != ' ') {
+                QLayoutItem* item = layout-> itemAtPosition(i, j);
+                QWidget* widget = item->widget();
+                QPushButton* mPB = qobject_cast<QPushButton*>(widget);
+                text = gb.getLetter(i, j);
+                mPB->setText(text);
+                mPB->setStyleSheet("background-color: #eddeb9;color:black;font-weight : bold;");
+            }
+        }
+    }
+}
+
+void MaFenetre::initRack() {
+
+    for (int i = 0; i < 7; i++) {
+        QLabel *letter = new QLabel("");
+        letter->setFixedWidth(40);
+        letter->setFixedHeight(40);
+        letter->setStyleSheet("background-color: #eddeb9; color : black; font-weight : bold;");
+        letter->setAlignment(Qt::AlignCenter);
+        //letter->setText(letter->text() + player.getLettersFromRackForGUI()[i]);
+        layoutRack->addWidget(letter);
+    }
+}
+
 void MaFenetre::getLetters() {
-    std::cout << "Je possede " << player.getNbLetters() << std::endl; // BUG
     int nbLetters = 7 - player.getNbLetters();
-    std::cout << "Je veux " << nbLetters << " lettres" << std::endl;
     if (nbLetters > 0) {
         player.takeLetters(nbLetters);
+        QLayoutItem * wItem;
+        while (wItem = layoutRack->takeAt(0))
+            delete wItem;
+
         for (int i = 0; i < 7; i++) {
             QLabel *letter = new QLabel("");
             letter->setFixedWidth(40);
             letter->setFixedHeight(40);
             letter->setStyleSheet("background-color: #eddeb9; color : black; font-weight : bold;");
             letter->setAlignment(Qt::AlignCenter);
-            letter->setText(letter->text() + player.getLettersFromRack()[i]);
+            letter->setText(letter->text() + player.getLettersFromRackForGUI()[i]);
             layoutRack->addWidget(letter);
         }
         ///rack->setText(rack->text() + " " + player.getLettersFromRack().c_str());
@@ -48,14 +80,38 @@ void MaFenetre::getLetters() {
 
 /* Printf all the possibilities for 0-> DAWG 1*/
 void MaFenetre::possibilitiesDawg() {
-    if (player.getNbLetters() == 7) {
+    if (player.getNbLetters() > 0) {
+        solution = player.plays(0)[0];
         possibilities->setText("Best word : ");
-        possibilities->setText(possibilities->text() + "On verra plus tard");
+        possibilities->setText(possibilities->text() + solution.word.c_str());
     } else {
         QMessageBox msgBox;
-        msgBox.setText("Please get your letters before this operation");
+        msgBox.setText("Please get letters.");
         msgBox.exec();
     }
+}
+
+void
+MaFenetre::putWord() {
+    player.putWord(solution.word, solution.abs, solution.ord, solution.dir);
+    player.upDate(solution);
+    refresh();
+    QLayoutItem * wItem;
+    while (wItem = layoutRack->takeAt(0))
+        delete wItem;
+
+    for (int i = 0; i < 7; i++) {
+        QLabel *letter = new QLabel("");
+        letter->setFixedWidth(40);
+        letter->setFixedHeight(40);
+        letter->setStyleSheet("background-color: #eddeb9; color : black; font-weight : bold;");
+        letter->setAlignment(Qt::AlignCenter);
+        letter->setText(letter->text() + player.getLettersFromRackForGUI()[i]);
+        std::cout << player.getLettersFromRack()[i] << '-';
+        layoutRack->addWidget(letter);
+
+    }
+    std::cout << std::endl;
 }
 
 MaFenetre::MaFenetre(Player p) : QWidget() {
@@ -74,7 +130,7 @@ MaFenetre::MaFenetre(Player p) : QWidget() {
     m_bouton2->setStyleSheet("background-color : white;");
     QObject::connect(m_bouton2, SIGNAL(clicked()), this, SLOT(getLetters()));
 
-    m_bouton3 = new QPushButton("Calculate possibilities", this);
+    m_bouton3 = new QPushButton("Find words", this);
     m_bouton3->setCursor(Qt::PointingHandCursor);
     m_bouton3->setStyleSheet("background-color : white;");
     QObject::connect(m_bouton3, SIGNAL(clicked()), this, SLOT(possibilitiesDawg()));
@@ -82,6 +138,7 @@ MaFenetre::MaFenetre(Player p) : QWidget() {
     m_bouton4 = new QPushButton("Put word", this);
     m_bouton4->setCursor(Qt::PointingHandCursor);
     m_bouton4->setStyleSheet("background-color : white;");
+    QObject::connect(m_bouton4, SIGNAL(clicked()), this, SLOT(putWord()));
 
     possibilities = new QLabel("Best Word");
     possibilities->setStyleSheet("color : black;");
@@ -98,6 +155,7 @@ MaFenetre::MaFenetre(Player p) : QWidget() {
     layoutV->addWidget(m_bouton2);
     layoutV->addWidget(m_bouton3);
     layoutV->addWidget(m_bouton4);
+    initRack();
     layoutV->addLayout(layoutRack);
     layoutV->addWidget(possibilities);
     layoutV->addWidget(points);
@@ -138,7 +196,7 @@ MaFenetre::MaFenetre(Player p) : QWidget() {
     }
 
     layoutPrinc = new QHBoxLayout;
-    layoutPrinc->setSpacing(20);
+    layoutPrinc->setSpacing(10);
     layoutPrinc->addLayout(layoutV);
     layoutPrinc->addLayout(layout);
 

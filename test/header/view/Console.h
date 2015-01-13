@@ -10,9 +10,12 @@
 
 #include <iostream>
 #include "../../header/model/GameBoard.h"
+#include "../../header/model/Player.h"
 
 class Console {
 public:
+
+    void startGame(Player);
     static void display(GameBoard);
     static void displayRack(char[7]);
 private:

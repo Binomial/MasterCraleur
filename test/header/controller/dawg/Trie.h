@@ -16,6 +16,13 @@
 #include "Node.h"
 #include "../../model/GameBoard.h"
 
+typedef struct {
+    std::string word;
+    int abs;
+    int ord;
+    int dir;
+} s_solution;
+
 class Trie {
 public:
     Trie();
@@ -36,7 +43,7 @@ public:
     void loadDawg(std::string);
     void buildDawgAndStore(std::string, std::string);
     //methodes Trie+Plateau
-    std::set<std::string> findWords(std::string, GameBoard, s_pos);
+    std::vector<s_solution> findWords(std::string, GameBoard, s_pos);
     void findWords(Node*, std::string, std::string);
     void extendRight(std::string partialWord, std::string chevalet, GameBoard, Node* head, s_pos anchor, int);
     void leftPart(std::string, std::string, GameBoard, Node*, s_pos, int, int);
@@ -46,7 +53,7 @@ public:
 private:
     Node* head;
     int number_of_nodes;
-    std::set<std::string> setSolutions;
+    std::vector<s_solution> vectSolutions;
     std::vector<Node*> unchecked_leaf_nodes;
 };
 
