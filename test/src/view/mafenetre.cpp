@@ -93,25 +93,31 @@ void MaFenetre::possibilitiesDawg() {
 
 void
 MaFenetre::putWord() {
-    player.putWord(solution.word, solution.abs, solution.ord, solution.dir);
-    player.upDate(solution);
-    refresh();
-    QLayoutItem * wItem;
-    while (wItem = layoutRack->takeAt(0))
-        delete wItem;
+    if (player.getNbLetters() > 0) {
+        player.putWord(solution.word, solution.abs, solution.ord, solution.dir);
+        player.upDate(solution);
+        refresh();
+        QLayoutItem * wItem;
+        while (wItem = layoutRack->takeAt(0))
+            delete wItem;
 
-    for (int i = 0; i < 7; i++) {
-        QLabel *letter = new QLabel("");
-        letter->setFixedWidth(40);
-        letter->setFixedHeight(40);
-        letter->setStyleSheet("background-color: #eddeb9; color : black; font-weight : bold;");
-        letter->setAlignment(Qt::AlignCenter);
-        letter->setText(letter->text() + player.getLettersFromRackForGUI()[i]);
-        std::cout << player.getLettersFromRack()[i] << '-';
-        layoutRack->addWidget(letter);
+        for (int i = 0; i < 7; i++) {
+            QLabel *letter = new QLabel("");
+            letter->setFixedWidth(40);
+            letter->setFixedHeight(40);
+            letter->setStyleSheet("background-color: #eddeb9; color : black; font-weight : bold;");
+            letter->setAlignment(Qt::AlignCenter);
+            letter->setText(letter->text() + player.getLettersFromRackForGUI()[i]);
+            std::cout << player.getLettersFromRack()[i] << '-';
+            layoutRack->addWidget(letter);
 
+        }
+        std::cout << std::endl;
+    } else {
+        QMessageBox msgBox;
+        msgBox.setText("Please get letters.");
+        msgBox.exec();
     }
-    std::cout << std::endl;
 }
 
 MaFenetre::MaFenetre(Player p) : QWidget() {
