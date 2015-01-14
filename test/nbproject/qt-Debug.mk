@@ -683,10 +683,9 @@ moc_mafenetre.cpp: ../../../Qt/5.4/gcc_64/include/QtWidgets/QApplication \
 		../../../Qt/5.4/gcc_64/include/QtWidgets/qmessagebox.h \
 		header/model/Player.h \
 		header/model/Bundle.h \
-		header/view/Console.h \
-		header/model/GameBoard.h \
 		header/controller/dawg/Trie.h \
 		header/controller/dawg/Node.h \
+		header/model/GameBoard.h \
 		header/view/mafenetre.h
 	/home/jeremy/Qt/5.4/gcc_64/bin/moc $(DEFINES) -I/home/jeremy/Qt/5.4/gcc_64/mkspecs/linux-g++ -I/home/jeremy/Documents/MasterCraleur/test/nbproject -I/home/jeremy/Qt/5.4/gcc_64/include -I/home/jeremy/Qt/5.4/gcc_64/include/QtWidgets -I/home/jeremy/Qt/5.4/gcc_64/include/QtGui -I/home/jeremy/Qt/5.4/gcc_64/include/QtCore -I. header/view/mafenetre.h -o moc_mafenetre.cpp
 
@@ -856,10 +855,10 @@ build/Debug/GNU-Linux-x86/main.o: main.cpp ../../../Qt/5.4/gcc_64/include/QtWidg
 		../../../Qt/5.4/gcc_64/include/QtWidgets/qmessagebox.h \
 		header/model/Player.h \
 		header/model/Bundle.h \
-		header/view/Console.h \
-		header/model/GameBoard.h \
 		header/controller/dawg/Trie.h \
-		header/controller/dawg/Node.h
+		header/controller/dawg/Node.h \
+		header/model/GameBoard.h \
+		header/view/Console.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/Debug/GNU-Linux-x86/main.o main.cpp
 
 build/Debug/GNU-Linux-x86/Dictionnary.o: src/controller/anagramint/Dictionnary.cpp header/controller/anagramint/Dictionnary.h
@@ -876,7 +875,9 @@ build/Debug/GNU-Linux-x86/Node.o: src/controller/dawg/Node.cpp header/controller
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/Debug/GNU-Linux-x86/Node.o src/controller/dawg/Node.cpp
 
 build/Debug/GNU-Linux-x86/Trie.o: src/controller/dawg/Trie.cpp header/controller/dawg/Trie.h \
-		header/controller/dawg/Node.h
+		header/controller/dawg/Node.h \
+		header/model/GameBoard.h \
+		header/model/Bundle.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/Debug/GNU-Linux-x86/Trie.o src/controller/dawg/Trie.cpp
 
 build/Debug/GNU-Linux-x86/Bundle.o: src/model/Bundle.cpp header/model/Bundle.h
@@ -888,15 +889,17 @@ build/Debug/GNU-Linux-x86/GameBoard.o: src/model/GameBoard.cpp header/model/Game
 
 build/Debug/GNU-Linux-x86/Player.o: src/model/Player.cpp header/model/Player.h \
 		header/model/Bundle.h \
-		header/view/Console.h \
-		header/model/GameBoard.h \
 		header/controller/dawg/Trie.h \
-		header/controller/dawg/Node.h
+		header/controller/dawg/Node.h \
+		header/model/GameBoard.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/Debug/GNU-Linux-x86/Player.o src/model/Player.cpp
 
 build/Debug/GNU-Linux-x86/Console.o: src/view/Console.cpp header/view/Console.h \
 		header/model/GameBoard.h \
-		header/model/Bundle.h
+		header/model/Bundle.h \
+		header/model/Player.h \
+		header/controller/dawg/Trie.h \
+		header/controller/dawg/Node.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/Debug/GNU-Linux-x86/Console.o src/view/Console.cpp
 
 build/Debug/GNU-Linux-x86/mafenetre.o: src/view/mafenetre.cpp header/view/mafenetre.h \
@@ -1051,10 +1054,9 @@ build/Debug/GNU-Linux-x86/mafenetre.o: src/view/mafenetre.cpp header/view/mafene
 		../../../Qt/5.4/gcc_64/include/QtWidgets/qmessagebox.h \
 		header/model/Player.h \
 		header/model/Bundle.h \
-		header/view/Console.h \
-		header/model/GameBoard.h \
 		header/controller/dawg/Trie.h \
-		header/controller/dawg/Node.h
+		header/controller/dawg/Node.h \
+		header/model/GameBoard.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/Debug/GNU-Linux-x86/mafenetre.o src/view/mafenetre.cpp
 
 build/Debug/GNU-Linux-x86/moc_mafenetre.o: moc_mafenetre.cpp 
