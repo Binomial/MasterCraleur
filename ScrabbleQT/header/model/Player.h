@@ -28,6 +28,7 @@ public:
     void putWord(std::string, int, int, int);
     void upDate(s_solution);
     GameBoard getGameBoard();
+    void deleteLetter(char c);
 private:
     GameBoard *gameboard;
     Bundle *bundle;

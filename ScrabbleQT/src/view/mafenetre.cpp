@@ -17,6 +17,8 @@ void MaFenetre::loadGame() {
                     QPushButton* mPB = qobject_cast<QPushButton*>(widget);
                     mPB->setText(temp.at(colonne));
                     mPB->setStyleSheet("background-color: #eddeb9;color:black;font-weight : bold;");
+                    std::cout << "char " << temp.at(colonne).toLatin1() << std::endl;
+                    player.deleteLetter(temp.at(colonne).toLower().toLatin1());
                 }
                 colonne++;
             }

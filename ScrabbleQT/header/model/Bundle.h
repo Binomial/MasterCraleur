@@ -18,6 +18,7 @@ public:
     Bundle();
     bool isEmpty();
     char takeLetter();
+    void deleteLetter(char);
     void init();
     int getPointOfChar(char);
     void displayDebug();
