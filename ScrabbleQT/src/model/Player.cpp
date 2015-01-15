@@ -162,6 +162,3 @@ GameBoard Player::getGameBoard() {
     return *gameboard;
 }
 
-void Player::deleteLetter(char c) {
-    bundle->deleteLetter(c);
-}

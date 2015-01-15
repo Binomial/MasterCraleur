@@ -115,19 +115,3 @@ void Bundle::displayDebug() {
 int Bundle::getPointOfChar(char c) {
     return pointOfChar[c];
 }
-
-void Bundle::deleteLetter(char c) {
-    displayDebug();
-    bool notFound = true;
-    unsigned int i =0;
-    
-    while( i<letters.size() && notFound) {
-        if(letters.at(i) == c) {
-            notFound = false;
-            letters.erase(letters.begin()+i);
-        }
-        i++;
-    }
-    
-    displayDebug();
-}
