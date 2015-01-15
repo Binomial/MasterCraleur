@@ -1,7 +1,6 @@
 
 #Personal
 .dep.inc
-Makefile
 build/*
 dist/*
 nbproject/*
@@ -39,3 +38,5 @@ nbproject/*
 /test/build/
 /test/dist/
 nbproject/*
+/ScrabbleQT/build/
+/ScrabbleQT/dist/
