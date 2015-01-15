@@ -2,6 +2,7 @@
 #include "header/view/mafenetre.h"
 #include "header/view/Console.h"
 
+/*Pour toi jérémy !*/
 int main(int argc, char *argv[]) {
     Player *player = new Player();
     char interface;
