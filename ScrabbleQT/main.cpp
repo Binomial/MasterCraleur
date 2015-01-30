@@ -2,7 +2,7 @@
 #include "header/view/mafenetre.h"
 #include "header/view/Console.h"
 
-/*Merci Greg !*/
+
 int main(int argc, char *argv[]) {
     Player *player = new Player();
     char interface;
@@ -20,7 +20,5 @@ int main(int argc, char *argv[]) {
         console->startGame(*player);
 
         return 0;
-    }
-
-
+    }    
 }

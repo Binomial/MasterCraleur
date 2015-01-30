@@ -21,8 +21,9 @@ using namespace std;
 
 class Dictionnary {
 public : 
+    
+    void createDictionnary();
     // Create a dictionnary for the solution with map<string, set<string>>
-    //void createDictionnary();
     void createDictionnary2();
     void mapToFile();
     // Return the map

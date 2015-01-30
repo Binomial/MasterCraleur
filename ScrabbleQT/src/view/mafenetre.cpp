@@ -73,7 +73,12 @@ void MaFenetre::getLetters() {
             letter->setFixedHeight(40);
             letter->setStyleSheet("background-color: #eddeb9; color : black; font-weight : bold;");
             letter->setAlignment(Qt::AlignCenter);
-            letter->setText(letter->text() + player.getLettersFromRackForGUI()[i]);
+            
+            char le = player.getLettersFromRackForGUI()[i];
+            if(le == '8')
+                le = ' ';
+            
+            letter->setText(letter->text() + le);
             layoutRack->addWidget(letter);
         }
         ///rack->setText(rack->text() + " " + player.getLettersFromRack().c_str());

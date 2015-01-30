@@ -92,11 +92,11 @@ void Permut::calcul(string letters) {
             tmp = "";
             for (unsigned int j = 0; j < k; ++j) {
                 tmp += letters[i[j]];
-
             }
+            sort(tmp.begin(), tmp.end());
             findAnagrams(tmp);
         } while (next(n, k, i));
-    } /********/
+    } 
 }
 
 void Permut::printSolution() {
@@ -108,7 +108,7 @@ void Permut::printSolution() {
 
 void Permut::findAnagrams(string key) {
     if (mapDict.count(key) > 0) {
-        //La clé existe, on affiche les solutions
+        //La clé existe, on enregistre les solutions
         for (const auto& word : mapDict[key]) {
             setSolution.insert(word);
         }

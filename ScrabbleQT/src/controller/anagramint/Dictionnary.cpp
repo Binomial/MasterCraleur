@@ -23,7 +23,7 @@ string Dictionnary::sortWord(string word) {
 }
 
 void Dictionnary::mapToFile() {
-    ofstream file("dico/dictFr2.dc", ios::out | ios::trunc);
+    ofstream file("dict/dictFr222.dc", ios::out | ios::trunc);
     if (file) {
         for (const auto& anagram : mapDict) {
             file << anagram.first;
@@ -39,7 +39,7 @@ void Dictionnary::mapToFile() {
 }
 
 void Dictionnary::createDictionnary2() {
-ifstream file("dico/dicoFr.dc");
+ifstream file("dict/basicDictFr.dc");
 
     if (file) {
         string line;
@@ -54,8 +54,8 @@ ifstream file("dico/dicoFr.dc");
     }
 }
 
-/*void Dictionnary::createDictionnary() {
-    ofstream file("dico/new.dc");
+void Dictionnary::createDictionnary() {
+    ofstream file("dict/new.dc");
     string temp = "";
     string wordsort;
     bool first = true;
@@ -77,7 +77,7 @@ ifstream file("dico/dicoFr.dc");
         cerr << "Erreur" << endl;
     }
 }
-*/
+
 void Dictionnary::lineToMap(string line) {
     string cle;
     int position = 0;
