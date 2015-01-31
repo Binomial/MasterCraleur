@@ -34,6 +34,10 @@ std::string Player::getLettersFromRack() {
     return result;
 }
 
+void Player::setNbLetters(int nb) {
+    this->numberOfLettersOnRack = nb;
+}
+
 std::string Player::getLettersFromRackForGUI() {
     std::string result = "";
     for (int i = 0; i < 7; i++) {
@@ -147,7 +151,7 @@ std::map<int, s_solution> Player::plays(int meth) {
 
 }
 
-void Player::upDate(s_solution solution) {
+void Player::upDate(s_solution solution, bool updateRac) {
     /*Etape 5 : Mise à jour des ancres */
     s_pos begin;
     begin.abs = solution.abs;
@@ -155,7 +159,8 @@ void Player::upDate(s_solution solution) {
     gameboard->upDateAnchors(begin, solution.word.length(), solution.dir);
 
     /* Etape 6 : Modification du chevalet */
-    updateRack(solution.word);
+    if(updateRac)
+        updateRack(solution.word);
 }
 
 GameBoard Player::getGameBoard() {

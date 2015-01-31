@@ -23,10 +23,11 @@ public:
     std::string getLettersFromRack();
     std::string getLettersFromRackForGUI();
     int getNbLetters();
+    void setNbLetters(int);
     void updateRack(std::string); //int longueur du mot qui a été placé
     void buildMapSolutions(std::vector<s_solution>);
     void putWord(std::string, int, int, int);
-    void upDate(s_solution);
+    void upDate(s_solution, bool);
     GameBoard getGameBoard();
     void deleteLetter(char c);
 private:

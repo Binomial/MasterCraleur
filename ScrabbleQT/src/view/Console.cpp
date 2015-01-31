@@ -57,7 +57,7 @@ void Console::startGame(Player player) {
         player.putWord(solutions[num].word, solutions[num].abs, solutions[num].ord, solutions[num].dir); // putWord("mot", abs, ord, direction)
         step++;
 
-        player.upDate(solutions[num]);
+        player.upDate(solutions[num], true);
 
         display(player.getGameBoard());
 

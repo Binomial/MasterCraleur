@@ -26,6 +26,7 @@ public:
 
 public slots:
     void loadGame();
+    void loadGamev2();
     void getLetters();
     void possibilitiesDawg();
     void putWord();
@@ -46,7 +47,7 @@ private:
     QLabel *rack, *possibilities, *points;
     Player player;
     s_solution solution;
-
+    bool upRack;
 };
 
 #endif

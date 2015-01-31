@@ -1,15 +1,15 @@
 #include "../../header/view/mafenetre.h"
 
-void MaFenetre::loadGame() {
+void MaFenetre::loadGamev2() {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Game board"), "/home/jeremy/Documents", tr("Game board (*.gb *.txt)"));
-    QString texte;
+    //QString texte;
     QFile fichier(fileName);
     int ligne = 0, colonne = 0;
     if (fichier.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QTextStream flux(&fichier);
         while (!flux.atEnd()) {
             QString temp = flux.readLine();
-            texte = temp;
+            //texte = temp;
             while (colonne < temp.size() && colonne < 16) {
                 if (temp.at(colonne) != ' ') {
                     QLayoutItem* item = layout-> itemAtPosition(ligne, colonne);
@@ -18,6 +18,7 @@ void MaFenetre::loadGame() {
                     mPB->setText(temp.at(colonne));
                     mPB->setStyleSheet("background-color: #eddeb9;color:black;font-weight : bold;");
                     std::cout << "char " << temp.at(colonne).toLatin1() << std::endl;
+
                     player.deleteLetter(temp.at(colonne).toLower().toLatin1());
                 }
                 colonne++;
@@ -27,6 +28,75 @@ void MaFenetre::loadGame() {
         }
         fichier.close();
     }
+}
+
+void MaFenetre::loadGame() {
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Game board"), "/home/jeremy/Documents", tr("Game board (*.gb *.txt)"));
+    QFile fichier(fileName);
+    QString tempLine;
+    std::string word="";
+    std::string tmpl, tmpc, tmpdir;
+    int ligne, colonne, pos, dir;
+    upRack = false;
+    if (fichier.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream flux(&fichier);
+        while (!flux.atEnd()) {
+            //Récupération de la ligne
+            tempLine = flux.readLine();
+            
+            ligne = 0;
+            colonne = 0;
+            pos = 0;
+            tmpl = "";
+            tmpc = "";
+            tmpdir = "";
+            word = "";
+            for(int i=0; i < tempLine.length(); i++) {               
+                char c = tempLine.at(i).toLatin1();
+                
+                switch(pos) {
+                    // Le mot
+                    case 0:
+                        if(c == ' ')
+                            pos++;
+                        else {
+                            player.deleteLetter(c);
+                            word += c;
+                        }
+                        break;
+                    // L'abs
+                    case 1:
+                        if(c == ' ')
+                            pos++;
+                        else
+                            tmpc += c;
+                        break;
+                    // L'ord
+                    case 2: 
+                        if(c == ' ')
+                            pos++;
+                        else
+                            tmpl += c;
+                        break;
+                    case 3:
+                        tmpdir = c;
+                        break;                        
+                }
+            }
+            ligne = std::stoi(tmpl);
+            colonne = std::stoi(tmpc);
+            dir = std::stoi(tmpdir);
+            solution.abs = colonne;
+            solution.ord = ligne;
+            solution.dir = dir;
+            solution.word = word;
+            player.setNbLetters(2);
+            putWord();
+            std::cout << "mot : " << word << " abs : " << colonne << " ord : " << ligne << " dir : " << dir <<std::endl;
+        }
+        player.setNbLetters(0);
+    }
+    upRack = true;
 }
 
 void MaFenetre::refresh() {
@@ -98,11 +168,10 @@ void MaFenetre::possibilitiesDawg() {
     }
 }
 
-void
-MaFenetre::putWord() {
+void MaFenetre::putWord() {
     if (player.getNbLetters() > 0) {
         player.putWord(solution.word, solution.abs, solution.ord, solution.dir);
-        player.upDate(solution);
+        player.upDate(solution, upRack);
         refresh();
         QLayoutItem * wItem;
         while (wItem = layoutRack->takeAt(0))
@@ -124,12 +193,12 @@ MaFenetre::putWord() {
         QMessageBox msgBox;
         msgBox.setText("Please get letters.");
         msgBox.exec();
-    }
+    }                                  
 }
 
 MaFenetre::MaFenetre(Player p) : QWidget() {
     player = p;
-
+    upRack = true;   
     setFixedSize(1120, 810);
     this->setStyleSheet("background-color: #75b475;");
     // Menu
