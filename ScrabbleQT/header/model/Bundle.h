@@ -20,11 +20,11 @@ public:
     char takeLetter();
     void deleteLetter(char);
     void init();
-    int getPointOfChar(char);
+    static int getPointOfChar(char);
     void displayDebug();
 private:
     std::vector<char> letters;
-    std::map<char, int> pointOfChar;
+   static std::map<char, int> pointOfChar;
 };
 
 

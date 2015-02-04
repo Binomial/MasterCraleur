@@ -1,5 +1,7 @@
 
 #include "../../header/model/Bundle.h"
+std::map<char, int> Bundle::pointOfChar;
+ 
 
 Bundle::Bundle() {
     letters.push_back('8');
@@ -53,7 +55,7 @@ Bundle::Bundle() {
     letters.push_back('x');
     letters.push_back('y');
     letters.push_back('z');
-
+    
     pointOfChar['a'] = 1;
     pointOfChar['b'] = 3;
     pointOfChar['c'] = 3;
@@ -80,6 +82,8 @@ Bundle::Bundle() {
     pointOfChar['x'] = 10;
     pointOfChar['y'] = 10;
     pointOfChar['z'] = 10;
+
+   
 
 
 

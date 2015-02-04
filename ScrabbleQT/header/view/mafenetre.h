@@ -25,6 +25,7 @@ public:
     void initRack();
 
 public slots:
+    s_solution bestWord(std::map<int, s_solution>);
     void loadGame();
     void loadGamev2();
     void getLetters();

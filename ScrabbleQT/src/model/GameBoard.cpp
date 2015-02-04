@@ -41,6 +41,8 @@ void GameBoard::init() {
     gameBoard[11][3].coef = 4;
     gameBoard[12][2].coef = 4;
     gameBoard[13][1].coef = 4;
+    
+    gameBoard[7][7].coef = 4;
 
 
     // Letter * 3

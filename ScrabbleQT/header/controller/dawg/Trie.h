@@ -21,6 +21,7 @@ typedef struct {
     int abs;
     int ord;
     int dir;
+    int points;
 } s_solution;
 
 class Trie {
@@ -50,6 +51,7 @@ public:
     bool isCorrect(GameBoard, int, int, char, int);
     bool isCorrectPrefix(GameBoard, std::string, s_pos, int);
     bool isConnected(GameBoard, int, int);
+    int countPoints(s_solution, GameBoard);
 private:
     Node* head;
     int number_of_nodes;

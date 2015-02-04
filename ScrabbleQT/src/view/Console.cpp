@@ -43,7 +43,7 @@ void Console::startGame(Player player) {
 
         solutions = player.plays(0); //int : methode choisie
         for (std::size_t i = 0; i < solutions.size(); ++i) {
-            std::cout << i << ": " << solutions[i].word << " (" << solutions[i].abs << "," << solutions[i].ord << ") d" << solutions[i].dir << std::endl;
+            std::cout << i << ": " << solutions[i].word << " (" << solutions[i].abs << "," << solutions[i].ord << ") d" << solutions[i].dir <<" #"<<solutions[i].points<< std::endl;
         }
         /* Etape 4 : Choix d'un mot */
 

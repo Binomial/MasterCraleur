@@ -413,6 +413,7 @@ void Trie::extendRight(std::string partialWord, std::string chevalet, GameBoard 
                         sol.abs = rsquare.abs;
                         sol.ord = rsquare.ord - partialWord.length();
                     }
+                    sol.points = countPoints(sol,gb);
                     vectSolutions.push_back(sol);
                 }
                 for (unsigned int i = 0; i < chevalet.length(); ++i) {
@@ -473,4 +474,29 @@ void Trie::leftPart(std::string partialWord, std::string chevalet, GameBoard gb,
             }
         }
     }
+}
+
+
+
+int Trie::countPoints(s_solution sol, GameBoard gb){
+	int result = 0;
+	bool isDouble = false;
+	bool isTriple = false;
+	int coeff = 1;
+	for(unsigned int i = 0 ; i < sol.word.length() ; ++i){
+            (sol.dir==0)? coeff = gb.getCoef(sol.abs+i, sol.ord) : gb.getCoef(sol.abs, sol.ord+i);
+            if (1<=coeff && coeff<=3)
+                result += Bundle::getPointOfChar(sol.word[i])*coeff;	
+            else 
+                if (coeff==4)
+                    isDouble = true;
+		if (coeff == 6)
+                    isTriple = true;
+                result += Bundle::getPointOfChar(sol.word[i]);
+	}
+	if (isDouble)
+		result = 2*result;
+	if (isTriple)
+		result = 3*result;
+	return result; 
 }

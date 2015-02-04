@@ -158,7 +158,10 @@ void MaFenetre::getLetters() {
 /* Printf all the possibilities for 0-> DAWG 1*/
 void MaFenetre::possibilitiesDawg() {
     if (player.getNbLetters() > 0) {
-        solution = player.plays(0)[0];
+        std::map<int, s_solution> solutions;
+        
+        solutions = player.plays(0);
+        solution= bestWord(solutions);
         possibilities->setText("Best word : ");
         possibilities->setText(possibilities->text() + solution.word.c_str());
     } else {
@@ -283,4 +286,19 @@ MaFenetre::MaFenetre(Player p) : QWidget() {
     layoutPrinc->addLayout(layout);
 
     this->setLayout(layoutPrinc);
+}
+
+
+s_solution MaFenetre::bestWord(std::map<int, s_solution> solutions){
+    s_solution result = solutions[0];
+    for (const auto& sol : solutions) {
+        if (sol.second.points>result.points)
+            result = sol.second;
+        
+    }
+
+   QString str = "Points : ";
+    str += QString::number(result.points);
+    points->setText(str);
+    return result;
 }
